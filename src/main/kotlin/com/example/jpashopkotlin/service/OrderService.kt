@@ -6,6 +6,7 @@ import com.example.jpashopkotlin.domain.OrderItem
 import com.example.jpashopkotlin.repository.ItemRepository
 import com.example.jpashopkotlin.repository.MemberRepository
 import com.example.jpashopkotlin.repository.OrderRepository
+import com.example.jpashopkotlin.repository.OrderSearch
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 
@@ -43,8 +44,13 @@ class OrderService (
         return order.id
     }
 
+    @Transactional
     fun cancelOrder(orderId: Long) {
         val order = orderRepository.findOne(orderId)
         order?.cancel()
+    }
+
+    fun findOrders(orderSearch: OrderSearch): MutableList<Order?>? {
+        return orderRepository.findAllByString(orderSearch)
     }
 }

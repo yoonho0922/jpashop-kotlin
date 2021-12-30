@@ -14,5 +14,5 @@ class Delivery(
     var address: Address? = null,
 
     @Enumerated(EnumType.ORDINAL)
-    var status: DelveryStatus = DelveryStatus.READY,
+    var status: DeliveryStatus = DeliveryStatus.READY,
 )

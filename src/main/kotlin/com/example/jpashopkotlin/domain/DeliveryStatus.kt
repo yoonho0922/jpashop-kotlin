@@ -1,5 +1,5 @@
 package com.example.jpashopkotlin.domain
 
-enum class DelveryStatus {
+enum class DeliveryStatus {
     READY, COMP
 }

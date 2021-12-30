@@ -53,7 +53,7 @@ class Order(
 
     //== 비즈니스 로직 ==//
     fun cancel(){
-        if (delivery?.status == DelveryStatus.COMP) {
+        if (delivery?.status == DeliveryStatus.COMP) {
             throw IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.")
         }
 
