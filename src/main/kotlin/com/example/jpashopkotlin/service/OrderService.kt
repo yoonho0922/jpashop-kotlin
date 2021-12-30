@@ -7,6 +7,7 @@ import com.example.jpashopkotlin.repository.ItemRepository
 import com.example.jpashopkotlin.repository.MemberRepository
 import com.example.jpashopkotlin.repository.OrderRepository
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class OrderService (
@@ -14,6 +15,7 @@ class OrderService (
     val memberRepository: MemberRepository,
     val itemRepository: ItemRepository,
 ){
+    @Transactional
     fun order(memberId: Long?, itemId: Long?, count: Int): Long? {
         // 엔티티 조회
         val member = memberId?.let { memberRepository.findOne(it) } ?: return null
