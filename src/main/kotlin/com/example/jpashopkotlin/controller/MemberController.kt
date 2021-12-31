@@ -26,9 +26,12 @@ class MemberController(
             return "members/createMemberForm"
         }
 
-        val member = Member()
-        member.name = form.name
-        member.address = Address(city = form.city, street = form.street, zipcode = form.zipcode)
+        val member = Member(name = form.name!!) // valid에서 name이 non-null을 보장
+        member.address = Address(
+            city = form.city,
+            street = form.street,
+            zipcode = form.zipcode
+        )
 
         memberService.join(member)
         return "redirect:/"
