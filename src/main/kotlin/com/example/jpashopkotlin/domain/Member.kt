@@ -1,5 +1,6 @@
 package com.example.jpashopkotlin.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -9,6 +10,7 @@ class Member(
     var name: String, // name은 필수 입력
     @Embedded
     var address: Address? = null,
-    @OneToMany(mappedBy = "member")
+    @JsonIgnore
+    @OneToMany(targetEntity = Order::class, mappedBy = "member")
     var orders: MutableList<Order> = mutableListOf(),
 )

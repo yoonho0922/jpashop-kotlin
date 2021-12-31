@@ -18,7 +18,7 @@ class Order(
     var orderStatus: OrderStatus,
 ){
     //== 연관관계 메서드 ==//
-    @ManyToOne @JoinColumn(name = "member_id")
+    @ManyToOne(targetEntity = Member::class, fetch = FetchType.LAZY) @JoinColumn(name = "member_id")
     var member: Member? = member
         set(value) {
             field = value
