@@ -8,22 +8,19 @@ import javax.transaction.Transactional
 
 @Service
 class MemberService(
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
 ) {
     @Transactional
     fun join(member: Member): Long? {
-        validateDuplicateMember(member)
+        validateDuplicateMember(member) // name으로 중복 회원 검사
         memberRepository.save(member)
         return member.id
     }
 
-    private fun validateDuplicateMember(member: Member) {
-        member.name?.let { name ->
-            val findMembers = memberRepository.findByName(name)
-            if (findMembers.isNotEmpty()) {
-                throw IllegalStateException("이미 존재하는 회원입니다 : " + findMembers[0].name)
-            }
-        }
+    @Transactional
+    fun update(id: Long, name: String) {
+        val member = memberRepository.findOne(id)
+        member.name = name
     }
 
     fun findMember(): List<Member> {
@@ -34,9 +31,10 @@ class MemberService(
         return memberRepository.findOne(memberId)
     }
 
-    @Transactional
-    fun update(id: Long, name: String) {
-        var member = memberRepository.findOne(id)
-        member.name = name
+    private fun validateDuplicateMember(member: Member) {
+        val findMembers = memberRepository.findByName(member.name)
+        if (findMembers.isNotEmpty()) {
+            throw IllegalStateException("이미 존재하는 회원입니다 : " + findMembers[0].name)
+        }
     }
 }

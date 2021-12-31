@@ -1,8 +1,10 @@
 package com.example.jpashopkotlin.service
 
+import com.example.jpashopkotlin.domain.Address
 import com.example.jpashopkotlin.domain.Member
 import com.example.jpashopkotlin.repository.MemberRepository
 import junit.framework.Assert.assertEquals
+import junit.framework.Assert.fail
 import org.junit.Test
 
 import org.junit.runner.RunWith
@@ -25,8 +27,8 @@ internal class MemberServiceTest{
     @Test
     fun 회원가입() {
         // given
-        val member = Member()
-        member.name = "yoonho"
+        val name = "yoonho"
+        val member = Member(name = name)
 
         // when
         val savedId = memberService.join(member)
@@ -35,4 +37,17 @@ internal class MemberServiceTest{
         assertEquals(member, memberRepository.findOne(savedId!!))
     }
 
+    @Test(expected = IllegalStateException::class)
+    fun 중복회원검사(){
+        // given
+        val name1 = "짱구"
+        val member1 = Member(name = name1)
+        val member2 = Member(name = name1)
+        memberService.join(member1)
+
+        // when
+        memberService.join(member2)
+        // then
+        fail("중복 회원 예외가 발생해야한다.")
+    }
 }

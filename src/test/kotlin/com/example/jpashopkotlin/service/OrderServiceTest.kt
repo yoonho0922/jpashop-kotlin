@@ -93,8 +93,7 @@ class OrderServiceTest{
     }
 
     private fun createMember(): Member {
-        val member = Member()
-        member.name = "회원01"
+        val member = Member(name = "회원01")
         member.address = Address(
             city = "서울",
             street = "강남대로",
