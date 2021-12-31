@@ -9,25 +9,24 @@ import javax.persistence.*
 class Order(
     @Id @GeneratedValue @Column(name = "order_id")
     var id: Long? = null,
-
+    member: Member? = null,
+    delivery: Delivery? = null,
     @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL])
     var orderItems: MutableList<OrderItem> = mutableListOf(),
-
-    var orderDate: LocalDateTime? = null,
-
+    var orderDate: LocalDateTime,
     @Enumerated(EnumType.STRING)
-    var orderStatus: OrderStatus? = null,
+    var orderStatus: OrderStatus,
 ){
     //== 연관관계 메서드 ==//
     @ManyToOne @JoinColumn(name = "member_id")
-    var member: Member? = null
+    var member: Member? = member
         set(value) {
             field = value
             member?.orders?.add(this)
         }
 
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    var delivery: Delivery? = null
+    var delivery: Delivery? = delivery
         set(value) {
             field = value
             delivery?.order = this
@@ -41,12 +40,13 @@ class Order(
     //== 생성 메서드 ==//
     companion object{
         fun createOrder(member: Member, delivery: Delivery, orderItem: OrderItem): Order {
-            val order = Order()
-            order.member = member
-            order.delivery = delivery
+            val order = Order(
+                member = member,
+                delivery = delivery,
+                orderStatus = OrderStatus.ORDER,
+                orderDate = LocalDateTime.now(),
+            )
             order.addOrderItem(orderItem)
-            order.orderStatus = OrderStatus.ORDER
-            order.orderDate = LocalDateTime.now()
             return order
         }
     }

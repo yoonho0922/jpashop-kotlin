@@ -27,16 +27,16 @@ class OrderService (
         delivery.address = member.address
 
         // 주문상품 생성
-        val orderItem = OrderItem.createOrderItem(
+        val orderItem = OrderItem(
             item = item,
             orderPrice = item.price,
-            count = count
+            count = count,
         )
 
         val order = Order.createOrder(
             member = member,
             delivery = delivery,
-            orderItem = orderItem
+            orderItem = orderItem,
         )
         // 주문 저장
         orderRepository.save(order)
