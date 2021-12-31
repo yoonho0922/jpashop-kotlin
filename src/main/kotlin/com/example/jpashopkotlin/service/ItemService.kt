@@ -7,7 +7,7 @@ import javax.transaction.Transactional
 
 @Service
 class ItemService(
-    val itemRepository: ItemRepository
+    val itemRepository: ItemRepository,
 ) {
     @Transactional
     fun saveItem(item: Item): Long? {
@@ -18,7 +18,7 @@ class ItemService(
     @Transactional
     fun updateItem(itemId: Long, name: String?, price: Int?, stockQuantity: Int?){
         val findItem = itemRepository.findOne(itemId)
-        findItem.name = name
+        findItem.name = name ?: findItem.name
         findItem.price = price
         findItem.stockQuantity = stockQuantity ?: 0
     }

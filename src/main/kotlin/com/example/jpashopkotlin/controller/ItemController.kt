@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import javax.validation.Valid
 
 @Controller
 class ItemController(
@@ -20,13 +21,13 @@ class ItemController(
     }
 
     @PostMapping("/items/new")
-    fun create(form: ItemForm): String {
-        val book = Item()
-        book.name = form.name
-        book.price = form.price
-        book.stockQuantity = form.stockQuantity ?: 0
+    fun create(@Valid form: ItemForm): String {
+        val book = Item(
+            name = form.name!!, // valid가 not null 보장
+            price = form.price,
+            stockQuantity = form.stockQuantity ?: 0,
+        )
         itemService.saveItem(book)
-
         return "redirect:/items"
     }
 
@@ -40,10 +41,11 @@ class ItemController(
     @GetMapping("items/{itemId}/edit")
     fun updateItemForm(@PathVariable("itemId") itemId: Long, model: Model): String? {
         val item: Item = itemService.findOne(itemId)
-        val form = ItemForm()
-        form.name = item.name
-        form.price = item.price
-        form.stockQuantity = item.stockQuantity
+        val form = ItemForm(
+            name = item.name,
+            price = item.price,
+            stockQuantity = item.stockQuantity,
+        )
         model.addAttribute("form", form)
         return "items/updateItemForm"
     }

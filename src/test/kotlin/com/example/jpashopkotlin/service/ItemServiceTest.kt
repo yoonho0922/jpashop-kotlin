@@ -25,8 +25,9 @@ class ItemServiceTest {
     @Test
     fun 아이템_추가(){
         // given
-        val item = Item()
-        item.name = "아몬드"
+        val item = Item(
+            name = "아몬드",
+        )
 
         // when
         val savedId = itemService.saveItem(item)!!

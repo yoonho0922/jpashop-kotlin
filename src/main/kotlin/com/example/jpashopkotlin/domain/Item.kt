@@ -1,24 +1,18 @@
 package com.example.jpashopkotlin.domain
 
-import com.example.jpashopkotlin.domain.Category
 import com.example.jpashopkotlin.exception.NotEnoughStockException
 import javax.persistence.*
 
 @Entity
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//@DiscriminatorColumn(name = "dtype")
 class Item(
     @Id @GeneratedValue @Column(name = "item_id")
     var id: Long? = null,
 
-    var name: String? = null,
+    var name: String, // name은 필수로 받음
 
     var price: Int? = null,
 
     var stockQuantity: Int = 0,
-
-    @ManyToMany(mappedBy = "items")
-    var categories: MutableList<Category> = mutableListOf(),
 ) {
 
     //== 비즈니스 로직 ==//

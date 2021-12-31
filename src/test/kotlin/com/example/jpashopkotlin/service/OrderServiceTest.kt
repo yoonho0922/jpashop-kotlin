@@ -50,7 +50,7 @@ class OrderServiceTest{
     }
 
     @Test(expected = NotEnoughStockException::class)
-    fun 상품주문_재고수량초과(){
+    fun `상품주문 재고수량초과`(){
         // given
         val member = createMember()
         val book = createItem("코틀린 인액션", 31000, 9)
@@ -84,10 +84,11 @@ class OrderServiceTest{
     }
 
     private fun createItem(name: String, price: Int, stockQuantity: Int): Item {
-        val book = Item()
-        book.name = name
-        book.price = price
-        book.stockQuantity = stockQuantity
+        val book = Item(
+            name = name,
+            price = price,
+            stockQuantity = stockQuantity,
+        )
         em.persist(book)
         return book
     }
