@@ -4,8 +4,8 @@ import javax.persistence.Embeddable
 
 @Embeddable
 class Address(
-    private var city: String?,
-    private var street: String?,
-    private var zipcode: String?,
+    var city: String?,
+    var street: String?,
+    var zipcode: String?,
 )
 // todo protected constructor()
